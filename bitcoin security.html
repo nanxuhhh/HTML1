@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="container" style="height: 100%"></div>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=xfhhaTThl11qYVrqLZii6w8qE5ggnhrY&__ec_v__=20190126"></script>
+       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+       <script type="text/javascript">
+var dom = document.getElementById("container");
+var myChart = echarts.init(dom);
+var app = {};
+option = null;
+app.title = '气泡图';
+
+var data = [
+    [
+    [2011.7,22,126624467,'2011年7月世界第三大比特币交易中心部分wallet.dat访问权限丢失，损失约17多万比特币22万美元。'],
+    [2011.8,80,126624467,'2011年8月作为常用比特币交易的处理中心之一的MyBitcoin宣布遭到黑客攻击并导致关机，涉及超过78000比特币约80万美元下落不明。'],
+    [2012.9,11,126624467,'2012年9月当黑客可以访问交换机钱包的未加密备份并将货币转出时，BitFloor遭到攻击。损失24000件BTC，约11万美元'],
+    [2014.6,120,126624467,'2014年6月Eligius矿池遭受快代扣攻击，损失约300个比特币120万美元。'],
+    [2014.12,180,126624467,'2014年12月BitPay CEO遭网络钓鱼，资金被骗，损失约达180万美元。'],
+    [2016.8,7000,126624467,'2016年8月来自香港的比特币交易平台Bitfinex遭受黑客攻击，该平台约有11.9756万个比特币从账户中被盗，损失价值约7000万美元',1990],
+    [2017.12,6200,126624467,'2017年12月斯洛文尼亚加密挖矿网站Nicehash被盗约4700个比特币约6200万美元。'],
+    [2018.6,4000,126624467,'2018年6月韩国一家比特币交易所Coinrail也被黑客窃取了超过4000万美元的数字货币。'],
+    [2018.9,5967,126624467,'2018年9月日本数字货币交易所Zaif宣布遭受黑客攻击，损失5967万美元。'],
+    [2018.11,550,126624467,'2018年11月黑客“John Doe”攻击了比特大陆的币安账户，比特大陆声称617枚比特币被盗，价值约550万美元。'],
+    [2019.5,4100,126624467,'2019年5月世界最大加密货币交易所币安（Binance）发生黑客攻击事件，丢失7000枚比特币，价值约4100万美元。']
+    ],
+    [
+    [2019,370,126624467,'2019年GRIM SPIDER的黑客组织通过勒索病毒收到超过705个，相当于370万美元的BTC。'],
+    [2011.7,814,126624467,'2011年7月关于盗窃MyBitcoin的信息几乎没有公布，许多人认为运营商Tom Williams是一个骗局而盗窃导致MyBitcoin关闭。损失78739 BTC，约814万美元'],
+    [2012.3,22,126624467,'2012年3月由于网站托管供应商Linode的服务器超级管理密码泄露，Bitcoinica交易平台钱包内比特币被黑客窃取，约46703个比特币22万美金。'],
+    [2014.2,1000,126624467,'2014年2月丝绸之路2.0地下市场的管理员Defcon注意到托管业务的资金被一个热钱包偷走了，损失大约4,400 BTC，约1000万美元'],
+    [2014.8,260,126624467,'2014年8月在线黑市Silk Road 2遭遇交易延展性攻击，比特币被盗约260万美元。'],
+    [2015.1,540,126624467,'2015年1月世界第三大比特币交易所Bitstamp近日因一次黑客攻击丢失了540万美元'],
+    [2017.10,300,126624467,'2017年10月交易所OKEx数位用户平台账号被窃取，损失600个BTC约300万美元。'],
+    [2018.4,330,126624467,'2018年4月印度三大比特币交易所之一Coinsecure在官网发布公告称，该交易所438个BTC失窃，价值约330万美元。'],
+    [2018.6,3200,126624467,'2018年6月韩国最大虚拟货币交易平台Bithumb遭黑客入侵，约350亿韩元（约合3200万美元，2亿人民币）资产被盗。']
+    ]
+];
+
+option = {
+    backgroundColor: new echarts.graphic.RadialGradient(0.3, 0.3, 0.8, [{
+        offset: 0,
+        color: '#f7f8fa'
+    }, {
+        offset: 1,
+        color: '#cdd0d5'
+    }]),
+    title: {text: '2009-2019bitcoin自身安全问题事件'},
+    xAxis: 
+    {
+        min:2011
+    },
+    yAxis: 
+    {
+        splitLine: 
+        {
+            lineStyle: 
+            {
+                type: 'dashed'
+            }
+        },
+        scale: true
+    },
+    series: [{
+        name: '1990',
+        data: data[0],
+        type: 'scatter',
+        symbolSize: function (data) {
+            return Math.sqrt(data[2]) / 5e2;
+        },
+        label: {
+            emphasis: {
+                show: true,
+                formatter: function (param) {
+                    return param.data[3];
+                },
+                position: 'top'
+            }
+        },
+        itemStyle: {
+            normal: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(120, 36, 50, 0.5)',
+                shadowOffsetY: 5,
+                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                    offset: 0,
+                    color: 'rgb(251, 118, 123)'
+                }, {
+                    offset: 1,
+                    color: 'rgb(204, 46, 72)'
+                }])
+            }
+        }
+    }, {
+        name: '2015',
+        data: data[1],
+        type: 'scatter',
+        symbolSize: function (data) {
+            return Math.sqrt(data[2]) / 5e2;
+        },
+        label: {
+            emphasis: {
+                show: true,
+                formatter: function (param) {
+                    return param.data[3];
+                },
+                position: 'top'
+            }
+        },
+        itemStyle: {
+            normal: {
+                shadowBlur: 10,
+                shadowColor: 'rgba(25, 100, 150, 0.5)',
+                shadowOffsetY: 5,
+                color: new echarts.graphic.RadialGradient(0.4, 0.3, 1, [{
+                    offset: 0,
+                    color: 'rgb(129, 227, 238)'
+                }, {
+                    offset: 1,
+                    color: 'rgb(25, 183, 207)'
+                }])
+            }
+        }
+    }]
+};;
+if (option && typeof option === "object") {
+    myChart.setOption(option, true);
+}
+       </script>
+   </body>
+</html>
